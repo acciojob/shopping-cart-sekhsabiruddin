@@ -1,23 +1,25 @@
-let grandtotal = 0;
-const addData = () => {
-  let name = document.getElementById('item-name-input').value;
-  let qty = document.getElementById('item-qty-input').value;
-  let price = document.getElementById('item-price-input').value;
-  let table = document.getElementById('table1');
-  let newRow = table.insertRow(table.rows.length - 1);
-  let namecell = newRow.insertCell(0);
-  let qtycell = newRow.insertCell(1);
-  let pricecell = newRow.insertCell(2);
-  let totalprice = newRow.insertCell(3);
-  namecell.classList.add("item");
-  totalprice.classList.add("price");
-  namecell.innerHTML = name;
-  qtycell.innerHTML = qty;
-  pricecell.innerHTML = price;
-  totalprice.innerHTML = qty * price;
-  grandtotal += qty * price;
-  document.getElementById('total').innerHTML = "Total Ammount " + grandtotal + " $";
-  document.getElementById('myinputs').reset();
-}
+const addButton = document.getElementById('add');
+      const itemInput = document.getElementById('item-name-input');
+      const priceInput = document.getElementById('item-price-input');
+      const list = document.getElementById('list');
+      const totalAmount = document.getElementById('total-amount');
 
-module.exports = addData;
+      addButton.addEventListener('click', () => {
+        if (!itemInput.value || !priceInput.value) {
+          alert('Both item name and price are required!');
+          return;
+        }
+
+        const newRow = document.createElement('tr');
+        const itemCell = document.createElement('td');
+        itemCell.innerText = itemInput.value;
+        newRow.appendChild(itemCell);
+        const priceCell = document.createElement('td');
+        priceCell.innerText = priceInput.value;
+        newRow.appendChild(priceCell);
+        list.insertBefore(newRow, list.children[list.children.length - 1]);
+        totalAmount.innerText = parseFloat(totalAmount.innerText) + parseFloat(priceInput.value);
+
+        itemInput.value = '';
+        priceInput.value = '';
+      });
