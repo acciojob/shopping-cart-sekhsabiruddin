@@ -1,25 +1,47 @@
-const addButton = document.getElementById('add');
-      const itemInput = document.getElementById('item-name-input');
-      const priceInput = document.getElementById('item-price-input');
-      const list = document.getElementById('list');
-      const totalAmount = document.getElementById('total-amount');
+const products = [
+  { id: 1, name: "Product 1", price: 10 },
+  { id: 2, name: "Product 2", price: 20 },
+  { id: 3, name: "Product 3", price: 30 },
+  { id: 4, name: "Product 4", price: 40 },
+  { id: 5, name: "Product 5", price: 50 },
+];
 
-      addButton.addEventListener('click', () => {
-        if (!itemInput.value || !priceInput.value) {
-          alert('Both item name and price are required!');
-          return;
-        }
+// DOM elements
+const productList = document.getElementById("product-list");
 
-        const newRow = document.createElement('tr');
-        const itemCell = document.createElement('td');
-        itemCell.innerText = itemInput.value;
-        newRow.appendChild(itemCell);
-        const priceCell = document.createElement('td');
-        priceCell.innerText = priceInput.value;
-        newRow.appendChild(priceCell);
-        list.insertBefore(newRow, list.children[list.children.length - 1]);
-        totalAmount.innerText = parseFloat(totalAmount.innerText) + parseFloat(priceInput.value);
+// Render product list
+function renderProducts() {
+  products.forEach((product) => {
+    const li = document.createElement("li");
+    li.innerHTML = `${product.name} - $${product.price} <button class="add-to-cart-btn" data-id="${product.id}">Add to Cart</button>`;
+    productList.appendChild(li);
+  });
+}
 
-        itemInput.value = '';
-        priceInput.value = '';
-      });
+// Render cart list
+function renderCart() {}
+
+// Add item to cart
+function addToCart(productId) {
+	 products.forEach((product) => {
+		 if(product.id===productId)
+	localStorage.setItem(productId,product);
+	 }
+}
+
+// Remove item from cart
+function removeFromCart(productId) {
+	 products.forEach((product) => {
+		 if(product.id===productId)
+	localStorage.removeItem(productId);
+	 }
+}
+
+// Clear cart
+function clearCart() {
+	localStorage.clear();
+}
+
+// Initial render
+renderProducts();
+renderCart();
